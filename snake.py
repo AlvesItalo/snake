@@ -26,11 +26,10 @@ game_display = pygame.display.set_mode((600,400))
 pygame.display.set_caption('Snake')
 
 #Color variables:
-red = pygame.Color(255, 0, 0)
-green = pygame.Color(0, 255, 0)
-blue = pygame.Color(0, 0, 255)
-black = pygame.Color(0, 0, 0)
-white = pygame.Color(255, 255, 255)
+red = pygame.Color(255, 0, 0) #Game Over font color
+green = pygame.Color(0, 255, 0) #Snake body color
+blue = pygame.Color(0, 0, 255) 
+black = pygame.Color(0, 0, 0) #Background Color
 brown = pygame.Color(165, 42, 42)
 
 #FPS:
@@ -41,25 +40,56 @@ snk_pos = [100, 50]
 snk = [[100, 50],[90, 50],[80, 50]]
 
 food_pos = [random.randrange(1,60)*10, random.randrange(1,40)*10]
-food_spawn = True
 
-direction = ''
+direction = 'RIGHT'
 changeto = direction
 
 #Game loop:
 while(1):
 	for event in pygame.event.get():
+		#Main Event Handler:
 		if (event.type == pygame.QUIT):
 			pygame.quit()
 			sys.exit()
 		elif(event.type == pygame.KEYDOWN):
-			if(event.key == pygame.K_RIGHT or event.key == ord('d')):
+			#Key alias:
+			if((event.key == pygame.K_RIGHT or event.key == ord('d')) and direction != 'LEFT' ):
 				changeto = 'RIGHT'
-			if(event.key == pygame.K_LEFT or event.key == ord('a')):
+			if((event.key == pygame.K_LEFT or event.key == ord('a')) and direction != 'RIGHT'):
 				changeto = 'LEFT'
-			if(event.key == pygame.K_UP or event.key == ord('w')):
+			if((event.key == pygame.K_UP or event.key == ord('w')) and direction != 'DOWN'):
 				changeto = 'UP'
-			if(event.key == pygame.K_DOWN or event.key == ord('s')):
+			if((event.key == pygame.K_DOWN or event.key == ord('s')) and direction != 'UP'):
 				changeto = 'DOWN'
-			if(event.key == pygame.K_ESCAPE or event.key == ord('QUIT')):
-				pygame.event.post(pygame.event.Event(QUIT))
+			if(event.key == pygame.K_ESCAPE):
+				pygame.event.post(pygame.event.Event(pygame.QUIT))
+
+
+	#Movement:
+	direction = changeto
+
+	if(direction == 'RIGHT'):
+		snk_pos[0] += 10
+	elif(direction == 'LEFT'):
+		snk_pos[0] -= 10
+	elif(direction == 'UP'):
+		snk_pos[1] -= 10
+	elif(direction == 'DOWN'):
+		snk_pos[1] += 10
+
+	#Snake body:
+	snk.insert(0, list(snk_pos))
+	if(snk_pos[0] == food_pos[0] and snk_pos[1] == food_pos[1]):
+		food_pos = [random.randrange(1,60)*10, random.randrange(1,40)*10]
+	else:
+		snk.pop()
+
+	for pos in snk:
+		pygame.draw.rect(game_display, green, 
+		pygame.Rect(pos[0], pos[1], 10, 10));
+
+	pygame.draw.rect(game_display, brown, 
+	pygame.Rect(food_pos[0], food_pos[1], 10, 10));
+
+	pygame.display.flip()
+	fps_controller.tick(14)
