@@ -4,14 +4,24 @@ import pygame, sys, random, time
 
 def game_over():
 	game_font = pygame.font.SysFont('Liberation sans', 68)
-	game_over = game_font.render('Game Over.', True, red)
+	game_over = game_font.render('YOU DIED', True, red)
 	game_over_rect = game_over.get_rect()
-	game_over_rect.midtop = (300, 50)
+	game_over_rect.midtop = (300, 150)
 	game_display.blit(game_over, game_over_rect)
 	pygame.display.flip()
 	time.sleep(5)
 	pygame.quit()
 	sys.exit()
+
+def display_score(score):
+	score_font = pygame.font.SysFont('Liberation sans', 28)
+	score_display = score_font.render('Score: '+ str(score), True, blue)
+	score_display_rect = score_display.get_rect()
+	score_display_rect.midtop = (300, 10)
+	game_display.blit(score_display, score_display_rect)
+
+def clear_screen():
+	game_display.fill(black)
 
 errors = pygame.init()
 
@@ -34,6 +44,7 @@ brown = pygame.Color(165, 42, 42)
 
 #FPS:
 fps_controller = pygame.time.Clock()
+fps = 10
 
 #Game variables:
 snk_pos = [100, 50]
@@ -43,6 +54,8 @@ food_pos = [random.randrange(1,60)*10, random.randrange(1,40)*10]
 
 direction = 'RIGHT'
 changeto = direction
+
+score = 0
 
 #Game loop:
 while(1):
@@ -81,15 +94,22 @@ while(1):
 	snk.insert(0, list(snk_pos))
 	if(snk_pos[0] == food_pos[0] and snk_pos[1] == food_pos[1]):
 		food_pos = [random.randrange(1,60)*10, random.randrange(1,40)*10]
+		score +=  5*fps
+		fps += 2
 	else:
 		snk.pop()
 
+	game_display.fill(black)
+	display_score(score)
 	for pos in snk:
 		pygame.draw.rect(game_display, green, 
-		pygame.Rect(pos[0], pos[1], 10, 10));
+		pygame.Rect(pos[0], pos[1], 10, 10))
 
 	pygame.draw.rect(game_display, brown, 
-	pygame.Rect(food_pos[0], food_pos[1], 10, 10));
+	pygame.Rect(food_pos[0], food_pos[1], 10, 10))
+
+	if((snk_pos[0] < 0 or snk_pos[0] > 600) or (snk_pos[1] < 0 or snk_pos[1] > 400)):
+		game_over()	
 
 	pygame.display.flip()
-	fps_controller.tick(14)
+	fps_controller.tick(fps)
