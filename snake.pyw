@@ -43,11 +43,6 @@ def display_score(score):
 	score_display_rect.midtop = (300, 10)
 	game_display.blit(score_display, score_display_rect)
 
-def clear_screen():
-	game_display.fill(black)
-
-
-
 #Game loop:
 def game():
 	errors = pygame.init()
@@ -74,7 +69,7 @@ def game():
 	score = 0
 
 	while(1):
-		if((snk_pos[0] < 0 or snk_pos[0] > 600) or (snk_pos[1] < 0 or snk_pos[1] > 400)):
+		if((snk_pos[0] < 0 or snk_pos[0] > 600) or (snk_pos[1] < 0 or snk_pos[1] > 400) or snk_pos in snk[1:-1]):
 			game_over()
 
 		game_display.fill(black)
@@ -115,8 +110,8 @@ def game():
 		snk.insert(0, list(snk_pos))
 		if(snk_pos[0] == food_pos[0] and snk_pos[1] == food_pos[1]):
 			food_pos = [random.randrange(1,60)*10, random.randrange(1,40)*10]
-			score +=  5*fps
-			fps += 2
+			score +=  10
+			fps += 0.1
 		else:
 			snk.pop()
 
@@ -129,6 +124,6 @@ def game():
 
 
 		pygame.display.flip()
-		fps_controller.tick(fps)
+		fps_controller.tick(int(fps))
 
 game()
