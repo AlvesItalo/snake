@@ -1,5 +1,4 @@
 #Snake
-
 import pygame, sys, random, time
 
 #Display:
