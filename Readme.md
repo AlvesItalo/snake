@@ -1,4 +1,4 @@
-![Snake Banner](/images/banner.png)
+![Snake Banner](/img/banner.png)
 Format: ![A banner for this repository](url)
 
 # Snake
