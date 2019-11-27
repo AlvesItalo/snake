@@ -63,7 +63,7 @@ def game():
     direcao = RIGHT
 
     while True:
-        if (cobra[0][X] < 0 or cobra[0][X] >= 400) or (cobra[0][Y] < 50 or cobra[0][Y] >= 400) or cobra[0] in cobra[1:-1]:
+        if (cobra[0][X] < 0 or cobra[0][X] >= 400) or (cobra[0][Y] < 50 or cobra[0][Y] >= 420) or cobra[0] in cobra[1:-1]:
             game_over(pontuacao)
             return pontuacao
 
@@ -97,6 +97,7 @@ def game():
         if cobra[0] == maca:
             maca = nova_maca()
             pontuacao += 1
+            feed_sfx.play(1)
         else:
             cobra.pop()
         
@@ -163,15 +164,17 @@ def gravar_ranking(nome, pontuacao):
 
     arquivo = open('ranking.txt', 'r')
 
+    done = False
     for i in range(5):
         linha = arquivo.readline()
         nome_r, pontuacao_r = linha.split()
 
-        if int(pontuacao_r) < pontuacao:
+        if int(pontuacao_r) < pontuacao and not done:
             ranking.append(pontuacao)
             nomes.append(nome)
             ranking.append(pontuacao_r)
             nomes.append(nome_r)
+            done = True
         else:
             ranking.append(pontuacao_r)
             nomes.append(nome_r)
@@ -228,7 +231,7 @@ def desenhar_placar(pontuacao):
     display.blit(texto, caixa_texto)
 
 
-# Color variables:
+# Cores
 green = pygame.Color(0, 255, 0)   # Cor da cobra
 white = pygame.Color(255, 255, 255)     # Cor de fundo
 brown = pygame.Color(165, 42, 42) # Cor da maçã
@@ -239,6 +242,10 @@ display = pygame.display.set_mode((400, 420))
 pygame.display.set_caption('Snake')
 
 fps_clock = pygame.time.Clock()
+pygame.mixer.init()
+
+feed_sfx = pygame.mixer.Sound('feed.wav')
+
 
 errors = pygame.init()
 if(errors[1]):
