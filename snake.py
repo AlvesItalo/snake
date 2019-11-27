@@ -241,18 +241,19 @@ grey = pygame.Color(50, 50, 50) # Cor do placar
 display = pygame.display.set_mode((400, 420))
 pygame.display.set_caption('Snake')
 
+# Clock
 fps_clock = pygame.time.Clock()
+
+# Som
 pygame.mixer.init()
-
 feed_sfx = pygame.mixer.Sound('feed.wav')
-
 
 errors = pygame.init()
 if(errors[1]):
-    print(errors[0]+" errors.")
+    print(errors[0]+" erros.")
     sys.exit(-1)
 else:
-    print("No errors.")
+    print("Sem erros.")
 
 while True:
     opt = menu()
