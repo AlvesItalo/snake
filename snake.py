@@ -18,6 +18,7 @@ LEFT = 3
 GFPS = 10
 FPS = 60
 
+
 def menu():
     fonte = pygame.font.SysFont('Open sans', 32)
     texto1 = fonte.render('1 - Jogar', True, grey)
@@ -216,7 +217,6 @@ def game_over(pontuacao):
         pygame.display.flip()
         fps_clock.tick(FPS)
 
-
 def desenhar_placar(pontuacao):
     pygame.draw.rect(display, grey, pygame.Rect(0,0, 400,50))
 
@@ -226,6 +226,7 @@ def desenhar_placar(pontuacao):
     caixa_texto.midtop = (200, 15)
 
     display.blit(texto, caixa_texto)
+
 
 # Color variables:
 green = pygame.Color(0, 255, 0)   # Cor da cobra
