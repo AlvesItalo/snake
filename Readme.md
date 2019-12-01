@@ -14,5 +14,5 @@ Um snake simples para abordar os módulos básicos da biblioteca pygame.
 
 ## Equipe
 - [Felipe Sousa](https://www.linkedin.com/in/felipe-sousa-1ba813197/)
-- [ìtalo Alves](https://www.linkedin.com/in/%C3%ADtalo-a-alves-9b654b193/)
+- [Ítalo Alves](https://www.linkedin.com/in/%C3%ADtalo-a-alves-9b654b193/)
 - [Micael Pinheiro](https://www.linkedin.com/in/micaelps/)
